@@ -18,18 +18,18 @@ const NavControl = ({ className = null, ...props }) => (
 
 const Home = () => {
   const [hasStarted, setHasStarted] = useState(false);
-  const wig = useSpeechRecognition();
+  const recognition = useSpeechRecognition();
 
   const startTranscribing = () => {
     setHasStarted(true);
-    wig.start();
+    recognition.start();
   };
 
   return (
     <div className="flex flex-col bg-gray-900 w-screen h-screen">
       <div className="flex flex-row bg-gray-800 p-2 shadow-md">
-        <NavControl onClick={() => wig.start()}>Start</NavControl>
-        <NavControl className="bg-red-700" onClick={() => wig.stop()}>
+        <NavControl onClick={() => recognition.start()}>Start</NavControl>
+        <NavControl className="bg-red-700" onClick={() => recognition.stop()}>
           Stop
         </NavControl>
         <div className="ml-auto">
@@ -38,11 +38,11 @@ const Home = () => {
       </div>
 
       {!hasStarted && (
-        <BeginTranscribingPrompt onStart={() => setHasStarted(true)} />
+        <BeginTranscribingPrompt onStart={() => startTranscribing()} />
       )}
       {hasStarted && (
-        <div className="flex flex-grow flex-col-reverse p-6 text-white text-2xl">
-          {wig.finalTranscript} {wig.interimTranscript}
+        <div className="flex flex-grow flex-col-reverse p-4 text-white text-2xl">
+          {recognition.finalTranscript} {recognition.interimTranscript}
         </div>
       )}
     </div>

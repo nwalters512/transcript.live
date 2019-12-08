@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, PureComponent } from "react";
 
 export interface ISpeechRecognition {
   supported: boolean;
@@ -26,6 +26,27 @@ const concatTranscripts = (...transcriptParts: string[]) =>
     .join(" ")
     .trim();
 
+const PUNCTUATION = [
+  [".", "period"],
+  [",", "comma"],
+  ["!", "exclamation point"],
+  ["?", "question mark"]
+];
+
+/**
+ * Normalizes a transcript by replacing punctuation (.,!?) with their spelled
+ * out versions ("period", "comma", etc.).
+ *
+ * @param transcript The transcript to normalize
+ */
+const normalizeTranscript = (transcript: string) =>
+  PUNCTUATION.reduce((normalizedTranscript, punctuation) => {
+    return normalizedTranscript
+      .split(punctuation[0])
+      .map(s => s.trim())
+      .join(` ${punctuation[1]} `);
+  }, transcript);
+
 /**
  * Based on https://github.com/FoundersFactory/react-speech-recognition/blob/master/src/SpeechRecognition.js
  */
@@ -36,6 +57,7 @@ export const useSpeechRecognition = (): ISpeechRecognition => {
   const [finalTranscript, setFinalTranscript] = useState(TESTING_CONTENT);
 
   useEffect(() => {
+    if (!browserSupportsSpeechRecognition) return;
     const recognition = new BrowserSpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = true;
@@ -45,12 +67,12 @@ export const useSpeechRecognition = (): ISpeechRecognition => {
         if (event.results[i].isFinal) {
           finalTranscriptRef.current = concatTranscripts(
             finalTranscriptRef.current,
-            event.results[i][0].transcript
+            normalizeTranscript(event.results[i][0].transcript)
           );
         } else {
           newInterimTranscript = concatTranscripts(
             newInterimTranscript,
-            event.results[i][0].transcript
+            normalizeTranscript(event.results[i][0].transcript)
           );
         }
       }
