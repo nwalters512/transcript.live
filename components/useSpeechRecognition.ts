@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 
+const TESTING_CONTENT =
+  "This is some dummy initial content. The quick brown fox jumped over the lazy dog.";
+
 const BrowserSpeechRecognition =
   typeof window !== "undefined" &&
   (window.SpeechRecognition || window.webkitSpeechRecognition);
@@ -17,9 +20,9 @@ const concatTranscripts = (...transcriptParts: string[]) =>
  */
 export const useSpeechRecognition = () => {
   const recognitionRef = useRef<SpeechRecognition>(null);
-  const finalTranscriptRef = useRef("");
+  const finalTranscriptRef = useRef(TESTING_CONTENT);
   const [interimTranscript, setInterimTranscript] = useState("");
-  const [finalTranscript, setFinalTranscript] = useState("");
+  const [finalTranscript, setFinalTranscript] = useState(TESTING_CONTENT);
 
   useEffect(() => {
     recognitionRef.current = new BrowserSpeechRecognition();
