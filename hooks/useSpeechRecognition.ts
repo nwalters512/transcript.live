@@ -1,5 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 
+export interface ISpeechRecognition {
+  supported: boolean;
+  start: () => void;
+  stop: () => void;
+  reset: () => void;
+  abort: () => void;
+  interimTranscript: string;
+  finalTranscript: string;
+  recognition?: SpeechRecognition;
+}
+
 const TESTING_CONTENT =
   "This is some dummy initial content. The quick brown fox jumped over the lazy dog.";
 
@@ -18,17 +29,17 @@ const concatTranscripts = (...transcriptParts: string[]) =>
 /**
  * Based on https://github.com/FoundersFactory/react-speech-recognition/blob/master/src/SpeechRecognition.js
  */
-export const useSpeechRecognition = () => {
+export const useSpeechRecognition = (): ISpeechRecognition => {
   const recognitionRef = useRef<SpeechRecognition>(null);
   const finalTranscriptRef = useRef(TESTING_CONTENT);
   const [interimTranscript, setInterimTranscript] = useState("");
   const [finalTranscript, setFinalTranscript] = useState(TESTING_CONTENT);
 
   useEffect(() => {
-    recognitionRef.current = new BrowserSpeechRecognition();
-    recognitionRef.current.continuous = true;
-    recognitionRef.current.interimResults = true;
-    recognitionRef.current.onresult = event => {
+    const recognition = new BrowserSpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.onresult = event => {
       let newInterimTranscript = "";
       for (let i = event.resultIndex; i < event.results.length; i++) {
         if (event.results[i].isFinal) {
@@ -46,6 +57,7 @@ export const useSpeechRecognition = () => {
       setInterimTranscript(newInterimTranscript);
       setFinalTranscript(finalTranscriptRef.current);
     };
+    recognitionRef.current = recognition;
     return () => {
       recognitionRef.current.abort();
     };

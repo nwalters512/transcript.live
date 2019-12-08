@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import classnames from "classnames";
-import { useSpeechRecognition } from "../components/useSpeechRecognition";
+import BeginTranscribingPrompt from "../components/BeginTranscribingPrompt";
+import {
+  useSpeechRecognition,
+  SpeechRecognitionProvider
+} from "../contexts/SpeechRecognitionProvider";
 
 const NavControl = ({ className = null, ...props }) => (
   <button
@@ -13,7 +17,14 @@ const NavControl = ({ className = null, ...props }) => (
 );
 
 const Home = () => {
+  const [hasStarted, setHasStarted] = useState(false);
   const wig = useSpeechRecognition();
+
+  const startTranscribing = () => {
+    setHasStarted(true);
+    wig.start();
+  };
+
   return (
     <div className="flex flex-col bg-gray-900 w-screen h-screen">
       <div className="flex flex-row bg-gray-800 p-2 shadow-md">
@@ -26,11 +37,20 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex flex-grow flex-col-reverse p-6 text-white text-2xl">
-        {wig.finalTranscript} {wig.interimTranscript}
-      </div>
+      {!hasStarted && (
+        <BeginTranscribingPrompt onStart={() => setHasStarted(true)} />
+      )}
+      {hasStarted && (
+        <div className="flex flex-grow flex-col-reverse p-6 text-white text-2xl">
+          {wig.finalTranscript} {wig.interimTranscript}
+        </div>
+      )}
     </div>
   );
 };
 
-export default Home;
+export default () => (
+  <SpeechRecognitionProvider>
+    <Home />
+  </SpeechRecognitionProvider>
+);
