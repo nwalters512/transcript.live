@@ -6,6 +6,7 @@ export interface ISpeechRecognition {
   stop: () => void;
   reset: () => void;
   abort: () => void;
+  transcript: string;
   interimTranscript: string;
   finalTranscript: string;
   recognition?: SpeechRecognition;
@@ -52,9 +53,9 @@ const normalizeTranscript = (transcript: string) =>
  */
 export const useSpeechRecognition = (): ISpeechRecognition => {
   const recognitionRef = useRef<SpeechRecognition>(null);
-  const finalTranscriptRef = useRef(TESTING_CONTENT);
+  const finalTranscriptRef = useRef("");
   const [interimTranscript, setInterimTranscript] = useState("");
-  const [finalTranscript, setFinalTranscript] = useState(TESTING_CONTENT);
+  const [finalTranscript, setFinalTranscript] = useState("");
 
   useEffect(() => {
     if (!browserSupportsSpeechRecognition) return;
@@ -98,6 +99,7 @@ export const useSpeechRecognition = (): ISpeechRecognition => {
     abort,
     interimTranscript,
     finalTranscript,
+    transcript: concatTranscripts(finalTranscript, interimTranscript),
     recognition: recognitionRef.current
   };
 };
