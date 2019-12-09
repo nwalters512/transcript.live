@@ -28,7 +28,7 @@ const About = () => (
     </Paragraph>
     <img
       src="/demo.png"
-      className="shadow-md max-w-xl mx-auto"
+      className="shadow-md w-full max-w-xl mx-auto"
       alt="Screenshot showing how app can be used with other applications."
     />
     <Heading>Origins of this app</Heading>
