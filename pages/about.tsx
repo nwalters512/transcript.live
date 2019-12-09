@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 
 const Link = ({ href, children }) => (
   <a href={href} className="text-blue-500 hover:underline">
@@ -14,6 +15,9 @@ const Paragraph = ({ children }) => <p className="mb-3">{children}</p>;
 
 const About = () => (
   <div className="container max-w-3xl mx-auto mt-8 text-white px-4">
+    <Head>
+      <title>transcript.live | About</title>
+    </Head>
     <Heading>What is this?</Heading>
     <Paragraph>
       This is an app to provide realtime captions (transcriptions) of audio.

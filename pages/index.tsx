@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from "react";
+import Head from "next/head";
 import classnames from "classnames";
 import BeginTranscribingPrompt from "../components/BeginTranscribingPrompt";
 import {
@@ -40,6 +41,9 @@ const Home = () => {
 
   return (
     <Fragment>
+      <Head>
+        <title>transcript.live</title>
+      </Head>
       <Modal
         title="Broswer not supported"
         show={showNotSupportedModal}
