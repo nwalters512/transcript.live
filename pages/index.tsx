@@ -43,8 +43,8 @@ const Home = () => {
         onHide={() => setShowModal(false)}
       >
         <p className="mb-2">
-          Your browser does not support speech recognition. We recommend you try
-          Google Chrome on Android or a desktop computer.
+          Your browser does not support speech recognition. We recommend using
+          this app on Google Chrome on a desktop computer.
         </p>
         <button
           className="bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-auto"

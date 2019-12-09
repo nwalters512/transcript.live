@@ -19,7 +19,18 @@ const BrowserSpeechRecognition =
   typeof window !== "undefined" &&
   (window.SpeechRecognition || window.webkitSpeechRecognition);
 
-const browserSupportsSpeechRecognition = !!BrowserSpeechRecognition;
+const isAndroidChrome =
+  typeof window !== "undefined" && navigator.userAgent.indexOf("Android") >= 0;
+
+/**
+ * Unfortunately, Chrome on Android doesn't properly implement the
+ * SpeechRecognition API; it incorrectly reports all results as final and
+ * requires users to restart listening after every pause in speaking.
+ * Rather than try to work around these issues, we'll just flag Android Chrome
+ * as not supported.
+ */
+const browserSupportsSpeechRecognition =
+  !!BrowserSpeechRecognition && !isAndroidChrome;
 
 const concatTranscripts = (...transcriptParts: string[]) =>
   transcriptParts
