@@ -6,29 +6,32 @@ import {
   SpeechRecognitionProvider
 } from "../contexts/SpeechRecognitionProvider";
 import Modal from "../components/Modal";
-
-const NavControl = ({ className = null, ...props }) => (
-  <button
-    className={classnames(
-      "bg-gray-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline",
-      className
-    )}
-    {...props}
-  ></button>
-);
+import Button from "../components/Button";
 
 const Home = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showNotSupportedModal, setShowNotSupportedModal] = useState(false);
+  const [showPermissionsModal, setShowPermissionsModal] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const recognition = useSpeechRecognition();
 
   const startTranscribing = () => {
     if (!recognition.supported) {
-      setShowModal(true);
+      setShowNotSupportedModal(true);
       return;
     }
-    setHasStarted(true);
-    recognition.start();
+
+    // Check if the user has granted access to the microphone
+    navigator.permissions.query({ name: "microphone" }).then(result => {
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then(stream => {
+          // We can safely start listening
+          setHasStarted(true);
+          recognition.start();
+        })
+        .catch(err => setShowPermissionsModal(true));
+      return;
+    });
   };
 
   const renderedTranscript = recognition.transcript || (
@@ -39,42 +42,49 @@ const Home = () => {
     <Fragment>
       <Modal
         title="Broswer not supported"
-        show={showModal}
-        onHide={() => setShowModal(false)}
+        show={showNotSupportedModal}
+        onHide={() => setShowNotSupportedModal(false)}
       >
         <p className="mb-2">
           Your browser does not support speech recognition. We recommend using
           this app on Google Chrome on a desktop computer.
         </p>
-        <button
-          className="bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-auto"
-          onClick={() => setShowModal(false)}
-        >
-          OK
-        </button>
+        <Button onClick={() => setShowNotSupportedModal(false)}>OK</Button>
       </Modal>
 
-      {hasStarted && (
-        <NavControl
-          className={classnames(
-            "block m-2",
-            recognition.isListening ? "bg-red-700" : "bg-blue-700"
-          )}
-          onClick={() =>
-            recognition.isListening ? recognition.stop() : recognition.start()
-          }
-        >
-          {recognition.isListening ? "Stop" : "Resume"}
-        </NavControl>
-      )}
+      <Modal
+        title="Microphone permissions required"
+        show={showPermissionsModal}
+        onHide={() => setShowPermissionsModal(false)}
+      >
+        <p className="mb-2">
+          You must grant access to your microphone to begin transcribing. Please
+          grant permissions and try again.
+        </p>
+        <Button onClick={() => setShowPermissionsModal(false)}>OK</Button>
+      </Modal>
 
       {!hasStarted && (
         <BeginTranscribingPrompt onStart={() => startTranscribing()} />
       )}
+
       {hasStarted && (
-        <div className="flex flex-grow flex-col-reverse p-4 text-white text-2xl overflow-y-auto">
-          {renderedTranscript}
-        </div>
+        <Fragment>
+          <button
+            className={classnames(
+              "block py-2 px-4 m-2 rounded text-white focus:outline-none focus:shadow-outline",
+              recognition.isListening ? "bg-red-700" : "bg-blue-700"
+            )}
+            onClick={() =>
+              recognition.isListening ? recognition.stop() : recognition.start()
+            }
+          >
+            {recognition.isListening ? "Stop" : "Resume"}
+          </button>
+          <div className="flex flex-grow flex-col-reverse p-4 text-white text-2xl overflow-y-auto">
+            {renderedTranscript}
+          </div>
+        </Fragment>
       )}
     </Fragment>
   );

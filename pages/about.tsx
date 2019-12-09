@@ -7,35 +7,46 @@ const Link = ({ href, children }) => (
 );
 
 const Heading = ({ children }) => (
-  <h1 className="text-2xl mb-3 mt-5">{children}</h1>
+  <h2 className="text-2xl mb-3 mt-5">{children}</h2>
 );
 
 const Paragraph = ({ children }) => <p className="mb-3">{children}</p>;
 
 const About = () => (
-  <div className="container max-w-3xl mx-auto mt-8 text-white">
+  <div className="container max-w-3xl mx-auto mt-8 text-white px-4">
     <Heading>What is this?</Heading>
     <Paragraph>
       This is an app to provide realtime captions (transcriptions) of audio.
       Captions can make your meeting, webcast, or other event more inclusive for
-      hearing-impaired individuals.
+      individuals with hearing impairments.
     </Paragraph>
+    <Paragraph>
+      You can use this app as the primary window on your display, but it can
+      also be used to provide captions with other content on screen. You can
+      position this app behind another window and resize the window in the
+      foreground to show a few lines of captions below.
+    </Paragraph>
+    <img
+      src="/demo.png"
+      className="shadow-md max-w-xl mx-auto"
+      alt="Screenshot showing how app can be used with other applications."
+    />
     <Heading>Origins of this app</Heading>
     <Paragraph>
-      This app was born out of the need to provide live captions for meetings at
-      work. Google Slides can provide{" "}
+      I built this built to scratch a personal itch. At work, we found ourselves
+      needing to provide captions for meetings. Google Slides can provide{" "}
       <Link href="https://support.google.com/docs/answer/9109474?hl=en">
         live captions
       </Link>
       , which works well when a meeting consists of a slideshow presentation.
       However, for presentations that required other applications to be
-      screen-shared, things didn't work as smoothly. People were resorting to
-      positioning empty slideshows behind their other windows just to take
-      advantage of captioning.
+      screen-shared, things didn't work as smoothly. We were resorting to
+      positioning empty slideshows in presentation mode behind their other
+      windows just to take advantage of their captions.
     </Paragraph>
     <Paragraph>
       This application is designed to offer a fast and simple alternative to
-      using Google Slides to provide captions. It uses the{" "}
+      using Google Slides for captions. It uses the{" "}
       <Link href="https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition">
         same technology
       </Link>{" "}
