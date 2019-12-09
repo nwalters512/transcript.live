@@ -9,6 +9,7 @@ export interface ISpeechRecognition {
   transcript: string;
   interimTranscript: string;
   finalTranscript: string;
+  isListening: boolean;
   recognition?: SpeechRecognition;
 }
 
@@ -64,9 +65,12 @@ const normalizeTranscript = (transcript: string) =>
  */
 export const useSpeechRecognition = (): ISpeechRecognition => {
   const recognitionRef = useRef<SpeechRecognition>(null);
+  const isListeningRef = useRef(false);
+  const autoresumeRef = useRef(false);
   const finalTranscriptRef = useRef("");
   const [interimTranscript, setInterimTranscript] = useState("");
   const [finalTranscript, setFinalTranscript] = useState("");
+  const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
     if (!browserSupportsSpeechRecognition) return;
@@ -91,14 +95,36 @@ export const useSpeechRecognition = (): ISpeechRecognition => {
       setInterimTranscript(newInterimTranscript);
       setFinalTranscript(finalTranscriptRef.current);
     };
+    recognition.onstart = () => {
+      isListeningRef.current = true;
+      setIsListening(true);
+    };
+    recognition.onend = () => {
+      if (autoresumeRef.current) {
+        recognition.start();
+        return;
+      }
+      isListeningRef.current = false;
+      setIsListening(false);
+    };
     recognitionRef.current = recognition;
     return () => {
+      // We don't want to receive any more events since we're unmounting
+      recognitionRef.current.onend = null;
       recognitionRef.current.abort();
     };
   }, []);
 
-  const start = () => recognitionRef.current?.start();
-  const stop = () => recognitionRef.current?.stop();
+  const start = () => {
+    if (!isListeningRef.current) {
+      recognitionRef.current?.start();
+    }
+    autoresumeRef.current = true;
+  };
+  const stop = () => {
+    recognitionRef.current?.stop();
+    autoresumeRef.current = false;
+  };
   const reset = () => {};
   const abort = () => {};
 
@@ -111,6 +137,7 @@ export const useSpeechRecognition = (): ISpeechRecognition => {
     interimTranscript,
     finalTranscript,
     transcript: concatTranscripts(finalTranscript, interimTranscript),
+    isListening,
     recognition: recognitionRef.current
   };
 };

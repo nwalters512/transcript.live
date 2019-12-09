@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import classnames from "classnames";
 import BeginTranscribingPrompt from "../components/BeginTranscribingPrompt";
 import {
@@ -36,7 +36,7 @@ const Home = () => {
   );
 
   return (
-    <div className="flex flex-col bg-gray-900 w-screen h-screen">
+    <Fragment>
       <Modal
         title="Broswer not supported"
         show={showModal}
@@ -53,25 +53,30 @@ const Home = () => {
           OK
         </button>
       </Modal>
-      <div className="flex flex-row bg-gray-800 p-2 shadow-md">
-        <NavControl onClick={() => recognition.start()}>Start</NavControl>
-        <NavControl className="bg-red-700" onClick={() => recognition.stop()}>
-          Stop
+
+      {hasStarted && (
+        <NavControl
+          className={classnames(
+            "block m-2",
+            recognition.isListening ? "bg-red-700" : "bg-blue-700"
+          )}
+          onClick={() =>
+            recognition.isListening ? recognition.stop() : recognition.start()
+          }
+        >
+          {recognition.isListening ? "Stop" : "Resume"}
         </NavControl>
-        <div className="ml-auto">
-          <NavControl>Exit</NavControl>
-        </div>
-      </div>
+      )}
 
       {!hasStarted && (
         <BeginTranscribingPrompt onStart={() => startTranscribing()} />
       )}
       {hasStarted && (
-        <div className="flex flex-grow flex-col-reverse p-4 text-white text-2xl">
+        <div className="flex flex-grow flex-col-reverse p-4 text-white text-2xl overflow-y-auto">
           {renderedTranscript}
         </div>
       )}
-    </div>
+    </Fragment>
   );
 };
 
