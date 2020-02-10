@@ -1,0 +1,13 @@
+name: Prettier
+
+jobs:
+  runs-on: ubuntu-latest
+  install:
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn
+  prettier:
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - run: yarn prettier:check
