@@ -1,8 +1,10 @@
 name: Prettier
 
+on: [push, pull_request]
+
 jobs:
-  runs-on: ubuntu-latest
   install:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: yarn
