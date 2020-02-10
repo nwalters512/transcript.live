@@ -1,6 +1,10 @@
-name: Prettier
+name: CI
 
-on: [push, pull_request]
+on: 
+  push:
+    brances:
+      - master
+  pull_request
 
 jobs:
   build:
