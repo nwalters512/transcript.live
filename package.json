@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "prettier:check": "prettier --check \"src/**/*\"",
-    "prettier:fix": "prettier --fix \"src/**/*\""
+    "prettier:fix": "prettier --write \"src/**/*\""
   },
   "dependencies": {
     "@types/classnames": "^2.2.9",
