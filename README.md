@@ -14,8 +14,6 @@ yarn dev
 # Run Prettier to automatically format code
 yarn prettier:fix
 ```
-
-This is testing some changes to the readme file.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1NzI5Nzg1MzBdfQ==
+eyJoaXN0b3J5IjpbLTkzODY4MDIzOV19
 -->
