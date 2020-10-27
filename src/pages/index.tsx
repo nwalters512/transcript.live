@@ -4,7 +4,7 @@ import classnames from "classnames";
 import BeginTranscribingPrompt from "../components/BeginTranscribingPrompt";
 import {
   useSpeechRecognition,
-  SpeechRecognitionProvider
+  SpeechRecognitionProvider,
 } from "../contexts/SpeechRecognitionProvider";
 import Modal from "../components/Modal";
 import Button from "../components/Button";
@@ -22,15 +22,15 @@ const Home = () => {
     }
 
     // Check if the user has granted access to the microphone
-    navigator.permissions.query({ name: "microphone" }).then(result => {
+    navigator.permissions.query({ name: "microphone" }).then((result) => {
       navigator.mediaDevices
         .getUserMedia({ audio: true })
-        .then(stream => {
+        .then((stream) => {
           // We can safely start listening
           setHasStarted(true);
           recognition.start();
         })
-        .catch(err => setShowPermissionsModal(true));
+        .catch((err) => setShowPermissionsModal(true));
       return;
     });
   };

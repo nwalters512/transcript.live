@@ -35,7 +35,7 @@ const browserSupportsSpeechRecognition =
 
 const concatTranscripts = (...transcriptParts: string[]) =>
   transcriptParts
-    .map(t => t.trim())
+    .map((t) => t.trim())
     .join(" ")
     .trim();
 
@@ -43,7 +43,7 @@ const PUNCTUATION = [
   [".", "period"],
   [",", "comma"],
   ["!", "exclamation point"],
-  ["?", "question mark"]
+  ["?", "question mark"],
 ];
 
 /**
@@ -56,7 +56,7 @@ const normalizeTranscript = (transcript: string) =>
   PUNCTUATION.reduce((normalizedTranscript, punctuation) => {
     return normalizedTranscript
       .split(punctuation[0])
-      .map(s => s.trim())
+      .map((s) => s.trim())
       .join(` ${punctuation[1]} `);
   }, transcript);
 
@@ -77,7 +77,7 @@ export const useSpeechRecognition = (): ISpeechRecognition => {
     const recognition = new BrowserSpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = true;
-    recognition.onresult = event => {
+    recognition.onresult = (event) => {
       let newInterimTranscript = "";
       for (let i = event.resultIndex; i < event.results.length; i++) {
         if (event.results[i].isFinal) {
@@ -138,6 +138,6 @@ export const useSpeechRecognition = (): ISpeechRecognition => {
     finalTranscript,
     transcript: concatTranscripts(finalTranscript, interimTranscript),
     isListening,
-    recognition: recognitionRef.current
+    recognition: recognitionRef.current,
   };
 };
