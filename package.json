@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prettier:check": "prettier --check \"**/*.{js,jsx,ts,tsx,yml,yaml,json,md}\"",
-    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,yml,yaml,json,md}\""
+    "prettier:check": "prettier --check \"**/*.{js,jsx,ts,tsx,yml,yaml,json}\"",
+    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,yml,yaml,json}\""
   },
   "dependencies": {
     "@types/classnames": "^2.2.10",
