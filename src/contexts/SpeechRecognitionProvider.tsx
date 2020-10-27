@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import {
   useSpeechRecognition as useSpeechRecognitionInternal,
-  ISpeechRecognition
+  ISpeechRecognition,
 } from "../hooks/useSpeechRecognition";
 
 const SpeechRecognitionContext = React.createContext<ISpeechRecognition>(null);
@@ -17,12 +17,12 @@ const SpeechRecognitionProvider = ({ children }) => {
   );
 };
 
-const withSpeechRecognition = children => () => (
+const withSpeechRecognition = (children) => () => (
   <SpeechRecognitionProvider>{children}</SpeechRecognitionProvider>
 );
 
 export {
   SpeechRecognitionProvider,
   useSpeechRecognition,
-  withSpeechRecognition
+  withSpeechRecognition,
 };

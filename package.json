@@ -6,24 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prettier:check": "prettier --check \"**/*.{js,jsx,ts,tsx,yml,yaml,json,md}\"",
-    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,yml,yaml,json,md}\""
+    "prettier:check": "prettier --check \"**/*.{js,jsx,ts,tsx,yml,yaml,json}\"",
+    "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,yml,yaml,json}\""
   },
   "dependencies": {
-    "@types/classnames": "^2.2.9",
+    "@types/classnames": "^2.2.10",
+    "@types/node": "^14.14.5",
+    "@types/react": "^16.9.53",
     "@zeit/next-css": "^1.0.1",
     "classnames": "^2.2.6",
-    "next": "9.1.4",
-    "react": "16.12.0",
-    "react-dom": "16.12.0"
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
-    "@types/node": "^12.12.14",
-    "@types/react": "^16.9.15",
+    "next": "^10.0.0",
     "postcss-preset-env": "^6.7.0",
-    "prettier": "1.19.1",
-    "tailwindcss": "^1.1.4",
-    "typescript": "^3.7.3"
+    "prettier": "2.1.2",
+    "react-dom": "^17.0.1",
+    "react": "^17.0.1",
+    "tailwindcss": "^1.9.6",
+    "typescript": "^4.0.5"
   }
 }

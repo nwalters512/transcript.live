@@ -12,7 +12,7 @@ const Button = ({
   className = null,
   rounded = false,
   onClick,
-  children
+  children,
 }: IButtonProps) => (
   <button
     onClick={onClick}
@@ -21,7 +21,7 @@ const Button = ({
       "bg-blue-700 text-white py-2 px-4 focus:outline-none focus:shadow-outline",
       {
         rounded: !rounded,
-        "rounded-full": rounded
+        "rounded-full": rounded,
       }
     )}
   >

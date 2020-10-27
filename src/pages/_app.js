@@ -7,7 +7,7 @@ function MyApp(props) {
   const {
     Component,
     pageProps,
-    router: { query }
+    router: { query },
   } = props;
 
   return (
