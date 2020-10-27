@@ -37,6 +37,7 @@ const About = () => (
       alt="Screenshot showing how app can be used with other applications."
       width={2560}
       height={1600}
+      priority
     />
     <Heading>Origins of this app</Heading>
     <Paragraph>
