@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import Image from "next/image";
 
 const Link = ({ href, children }) => (
   <a href={href} className="text-blue-500 hover:underline">
@@ -30,10 +31,12 @@ const About = () => (
       position this app behind another window and resize the window in the
       foreground to show a few lines of captions below.
     </Paragraph>
-    <img
+    <Image
       src="/demo.png"
-      className="shadow-md w-full max-w-xl mx-auto"
+      className="shadow-md w-full mx-auto"
       alt="Screenshot showing how app can be used with other applications."
+      width={2560}
+      height={1600}
     />
     <Heading>Origins of this app</Heading>
     <Paragraph>
