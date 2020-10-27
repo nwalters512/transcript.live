@@ -94,8 +94,10 @@ const Home = () => {
   );
 };
 
-export default () => (
+const Index = () => (
   <SpeechRecognitionProvider>
     <Home />
   </SpeechRecognitionProvider>
 );
+
+export default Index;
