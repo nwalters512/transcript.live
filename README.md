@@ -1,6 +1,6 @@
-# [transcript.live](https://transcript.live/)
+# transcript.live
 
-An app that provides live audio captioning in your browser. See https://transcript.live/about for more information.
+An app that provides live audio captioning in your browser.
 
 ## Developing
 
